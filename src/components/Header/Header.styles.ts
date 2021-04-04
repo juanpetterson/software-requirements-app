@@ -34,6 +34,8 @@ export const NavContainer = styled('nav', {
 
 export const NavBar = styled('ul', {
   display: 'flex',
+  justifyContent: 'space-between',
+  width: '100%',
 });
 
 export const NavDropMenu = styled('div', {
@@ -43,13 +45,13 @@ export const NavDropMenu = styled('div', {
     display: 'block',
   },
   '&:hover .dropdown-menu-item ': {
-    backgroundColor: '#3e8e41',
+    backgroundColor: '#B9B7BD',
   },
 });
 
 export const NavDropMenuItem = styled('button', {
-  backgroundColor: '#4CAF50',
-  color: 'white',
+  backgroundColor: '#EEEDE7',
+  color: 'black',
   padding: '16px',
   fontSize: '16px',
   border: 'none',
@@ -63,6 +65,14 @@ export const NavDropMenuContent = styled('div', {
   minWidth: '160px',
   boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)',
   zIndex: '1',
+
+  variants: {
+    size: {
+      small: {
+        minWidth: '80px',
+      },
+    },
+  },
 
   '&:hover .link:hover': {
     display: 'block',
