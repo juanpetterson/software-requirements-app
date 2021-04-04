@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
 
 import Header from './components/Header/Header';
-import Routes from './routes';
+import { AuthProvider } from './contexts/auth';
+import Routes from './routes/routes';
 
 import { globalStyles, lightTheme, darkTheme } from './stitches.config';
 
@@ -17,14 +17,14 @@ function App() {
   globalStyles();
 
   return (
-    <div style={{ backgroundColor: '$background', height: '100%' }}>
-      <Router>
+    <AuthProvider>
+      <div style={{ backgroundColor: '$background', height: '100%' }}>
         <Header brand="Requisitos de Software" toggleTheme={toggleTheme} />
         <div style={{ padding: '30px 20px' }}>
           <Routes />
         </div>
-      </Router>
-    </div>
+      </div>
+    </AuthProvider>
   );
 }
 
