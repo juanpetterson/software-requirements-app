@@ -2,22 +2,26 @@ import { AxiosResponse } from 'axios';
 import IUser from '../Models/user';
 import api from './api';
 
-export const addUser = async (data: IUser): Promise<IUser> => {
+export const addUser = async (data: IUser): Promise<AxiosResponse<IUser>> => {
   return api.post('/users', data);
 };
 
-export const updateUser = async (data: IUser): Promise<IUser> => {
-  return api.post(`/users/${data.id}`, data);
+export const updateUser = async (
+  data: IUser,
+): Promise<AxiosResponse<IUser>> => {
+  return api.put(`/users/${data._id}`, data);
 };
 
-export const deleteUser = async (data: IUser): Promise<IUser> => {
-  return api.delete(`/users/${data.id}`);
+export const deleteUser = async (
+  id: string,
+): Promise<AxiosResponse<string>> => {
+  return api.delete(`/users/${id}`);
 };
 
-export const getUser = async (id: string): Promise<IUser> => {
+export const getUser = async (id: string): Promise<AxiosResponse<IUser>> => {
   return api.get(`/users/${id}`);
 };
 
-export const getUsers = async (): Promise<AxiosResponse> => {
+export const getUsers = async (): Promise<AxiosResponse<IUser[]>> => {
   return api.get('/users');
 };
