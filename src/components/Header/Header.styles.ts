@@ -56,6 +56,15 @@ export const NavDropMenuItem = styled('button', {
   fontSize: '16px',
   border: 'none',
   outline: 'none',
+  width: '100px',
+
+  variants: {
+    size: {
+      small: {
+        width: '70px',
+      },
+    },
+  },
 });
 
 export const NavDropMenuContent = styled('div', {
@@ -83,4 +92,14 @@ export const NavDropMenuContent = styled('div', {
     textDecoration: 'none',
     display: 'block',
   },
+});
+
+export const Button = styled('button', {
+  outline: 'none',
+  border: 'none',
+  backgroundColor: '#f1f1f1',
+  color: 'black',
+  padding: '12px 16px',
+  textDecoration: 'none',
+  fontSize: '16px',
 });

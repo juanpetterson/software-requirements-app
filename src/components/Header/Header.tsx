@@ -7,6 +7,7 @@ import {
   NavDropMenu,
   NavDropMenuItem,
   NavDropMenuContent,
+  Button,
 } from './Header.styles';
 import { Link, useLocation } from 'wouter';
 import { useAuth } from '../../hooks/useAuth';
@@ -49,9 +50,12 @@ function Header({ brand, toggleTheme }: IHeaderProps) {
       </Brand>
       <NavContainer>
         <NavBar>
-          <>
+          <div>
             <NavDropMenu>
-              <NavDropMenuItem className="dropdown-menu-item">
+              <NavDropMenuItem
+                className="dropdown-menu-item"
+                style={{ marginRight: '20px' }}
+              >
                 Cadastros
               </NavDropMenuItem>
               <NavDropMenuContent className="dropdown-content">
@@ -69,14 +73,14 @@ function Header({ brand, toggleTheme }: IHeaderProps) {
                 <CustomLink url="/users/list">Usuários</CustomLink>
               </NavDropMenuContent>
             </NavDropMenu>
-          </>
+          </div>
           <NavDropMenu>
-            <NavDropMenuItem className="dropdown-menu-item">
+            <NavDropMenuItem className="dropdown-menu-item" size="small">
               Login
             </NavDropMenuItem>
             <NavDropMenuContent size="small" className="dropdown-content">
               {user ? (
-                <button onClick={handleLogout}>Logout</button>
+                <Button onClick={handleLogout}>Logout</Button>
               ) : (
                 <CustomLink url="/login">Login</CustomLink>
               )}
