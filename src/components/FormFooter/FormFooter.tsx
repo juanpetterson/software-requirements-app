@@ -1,18 +1,26 @@
 import * as React from 'react';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 
-import { Container } from './FormFooter.styles';
+import { Container, Button } from './FormFooter.styles';
 
-export interface IFormFooterProps {}
+export interface IFormFooterProps {
+  onCancel?: () => void;
+  onConfirm?: () => void;
+  isEdit?: boolean;
+}
 
-export function FormFooter(props: IFormFooterProps) {
+export function FormFooter({
+  onCancel,
+  onConfirm,
+  isEdit = false,
+}: IFormFooterProps) {
   return (
     <Container>
-      <Button variant="contained" size="large" disableElevation>
+      <Button color="default" onClick={onCancel}>
         Cancelar
       </Button>
-      <Button variant="contained" color="primary" size="large" disableElevation>
-        Cadastrar
+      <Button color="primary" onClick={onConfirm}>
+        {isEdit ? 'Atualizar' : 'Cadastrar'}
       </Button>
     </Container>
   );

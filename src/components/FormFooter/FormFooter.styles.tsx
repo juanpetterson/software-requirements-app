@@ -10,3 +10,22 @@ export const Container = styled('div', {
   alignItems: 'center',
   background: 'white',
 });
+
+export const Button = styled('button', {
+  padding: '15px',
+  border: 'none',
+  outline: 'none',
+  cursor: 'pointer',
+
+  variants: {
+    color: {
+      primary: {
+        backgroundColor: '#0E86D4',
+        color: 'white',
+      },
+      default: {
+        backgroundColor: 'lightgray',
+      },
+    },
+  },
+});
