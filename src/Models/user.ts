@@ -1,9 +1,9 @@
 export default interface IUser {
-  id?: string;
+  _id?: string;
   name: string;
   email: string;
   password: string;
   isAdmin: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
