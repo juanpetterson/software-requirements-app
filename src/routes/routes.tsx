@@ -3,9 +3,10 @@ import { Switch } from 'wouter';
 
 import { Home } from '../pages/Home/Home';
 import { SoftwareRequirementsForm } from '../pages/SoftwareRequirementsForm/SoftwareRequirementsForm';
-import { LoginForm } from '../pages/LoginForm/LoginForm';
+import { UserForm } from '../pages/UserForm/UserForm';
 import { Login as LoginPage } from '../pages/Login/Login';
 import { Route } from './Router';
+import { UsersList } from '../pages/UsersList/UsersList';
 
 const Routes = () => {
   return (
@@ -17,7 +18,13 @@ const Routes = () => {
         <SoftwareRequirementsForm />
       </Route>
       <Route path="/users/add" isPrivate>
-        <LoginForm />
+        <UserForm />
+      </Route>
+      <Route path="/users/:id/edit" isPrivate>
+        {params => <UserForm userId={params.id} />}
+      </Route>
+      <Route path="/users/list" isPrivate>
+        <UsersList />
       </Route>
       <Route path="/login" isAuthPage>
         <LoginPage />
