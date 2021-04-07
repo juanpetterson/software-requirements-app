@@ -49,31 +49,35 @@ function Header({ brand, toggleTheme }: IHeaderProps) {
         </CustomLink>
       </Brand>
       <NavContainer>
-        <NavBar>
-          <div>
-            <NavDropMenu>
-              <NavDropMenuItem
-                className="dropdown-menu-item"
-                style={{ marginRight: '20px' }}
-              >
-                Cadastros
-              </NavDropMenuItem>
-              <NavDropMenuContent className="dropdown-content">
-                <CustomLink url="/software-requirements">
-                  Requisitos de Software
-                </CustomLink>
-                <CustomLink url="/users/add">Usuários</CustomLink>
-              </NavDropMenuContent>
-            </NavDropMenu>
-            <NavDropMenu>
-              <NavDropMenuItem className="dropdown-menu-item">
-                Listas
-              </NavDropMenuItem>
-              <NavDropMenuContent className="dropdown-content">
-                <CustomLink url="/users/list">Usuários</CustomLink>
-              </NavDropMenuContent>
-            </NavDropMenu>
-          </div>
+        <NavBar style={{ justifyContent: user ? 'space-between' : 'flex-end' }}>
+          {user && (
+            <div>
+              {user?.isAdmin && (
+                <NavDropMenu>
+                  <NavDropMenuItem
+                    className="dropdown-menu-item"
+                    style={{ marginRight: '20px' }}
+                  >
+                    Cadastros
+                  </NavDropMenuItem>
+                  <NavDropMenuContent className="dropdown-content">
+                    <CustomLink url="/software-requirements">
+                      Requisitos de Software
+                    </CustomLink>
+                    <CustomLink url="/users/add">Usuários</CustomLink>
+                  </NavDropMenuContent>
+                </NavDropMenu>
+              )}
+              <NavDropMenu>
+                <NavDropMenuItem className="dropdown-menu-item">
+                  Listas
+                </NavDropMenuItem>
+                <NavDropMenuContent className="dropdown-content">
+                  <CustomLink url="/users/list">Usuários</CustomLink>
+                </NavDropMenuContent>
+              </NavDropMenu>
+            </div>
+          )}
           <NavDropMenu>
             <NavDropMenuItem className="dropdown-menu-item" size="small">
               Login

@@ -22,7 +22,6 @@ import {
 export function UserForm({ userId }: IUserFormProps) {
   const [location, setLocation] = useLocation();
   const [currentUser, setCurrentUser] = useState<IUser>();
-  const [selectedValue, setSelectedValue] = useState('functional');
   const [state, setState] = useState({
     name: '',
     email: '',
@@ -31,8 +30,6 @@ export function UserForm({ userId }: IUserFormProps) {
   });
 
   useEffect(() => {
-    console.log('userId:', userId);
-
     const loadUser = async () => {
       if (userId) {
         const { data: user } = await getUser(userId);
@@ -65,7 +62,6 @@ export function UserForm({ userId }: IUserFormProps) {
 
     const action = userId ? updateUser : addUser;
     await action(user);
-    console.log('action');
     setLocation('/users/list');
   };
   const handleCancel = () => {
@@ -102,16 +98,18 @@ export function UserForm({ userId }: IUserFormProps) {
             onChange={handleChange}
           />
         </InputContainer>
-        <InputContainer>
-          <label htmlFor="password">Senha</label>
-          <InputField
-            id="password"
-            name="password"
-            type="password"
-            value={state.password}
-            onChange={handleChange}
-          />
-        </InputContainer>
+        {!userId && (
+          <InputContainer>
+            <label htmlFor="password">Senha</label>
+            <InputField
+              id="password"
+              name="password"
+              type="password"
+              value={state.password}
+              onChange={handleChange}
+            />
+          </InputContainer>
+        )}
         <InputContainer>
           <label htmlFor="administrator-checkbox">Administrador</label>
           <InputCheckbox
