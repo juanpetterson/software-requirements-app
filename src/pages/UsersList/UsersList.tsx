@@ -39,53 +39,72 @@ export function UsersList(props: IUsersListProps) {
   };
 
   return (
-    <div>
-      <table
-        style={{
-          width: '100%',
-          maxWidth: '600px',
-          border: '1px solid',
-          borderCollapse: 'collapse',
-        }}
-      >
-        <thead>
-          <TrHead>
-            <Th style={{ border: '1px solid black' }}>Nome</Th>
-            <Th style={{ border: '1px solid black' }}>Email</Th>
-            <Th style={{ border: '1px solid black' }}>Administrador</Th>
-            <Th style={{ border: '1px solid black' }}>Ações</Th>
-          </TrHead>
+    <div
+      className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
+      style={{ overflow: 'auto' }}
+    >
+      <table className="min-w-full divide-y divide-gray-200">
+        <thead className="bg-gray-50">
+          <tr>
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Nome
+            </th>
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Email
+            </th>
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Função
+            </th>
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Ações
+            </th>
+          </tr>
         </thead>
-        <tbody>
+        <tbody className="bg-white divide-y divide-gray-200">
           {usersList &&
             usersList.map(user => (
-              <Tr key={user._id}>
-                <Td style={{ border: '1px solid' }}>{user.name}</Td>
-                <Td style={{ border: '1px solid' }}>{user.email}</Td>
-                <Td style={{ border: '1px solid' }}>
-                  {user.isAdmin ? 'Sim' : 'Não'}
-                </Td>
-                <Td
+              <tr key={user._id}>
+                <td className="px-6 py-4 whitespace-nowrap">{user.name}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {user.isAdmin ? 'Administrador' : 'Usuário'}
+                </td>
+                <td
                   style={{
-                    border: '1px solid',
                     display: 'flex',
                     justifyContent: 'space-around',
+                    alignItems: 'center',
                   }}
+                  className="px-6 py-4 whitespace-nowrap"
                 >
                   <Button
                     onClick={() => handleEditUser(user._id)}
                     disabled={!loggedUser?.isAdmin}
                   >
-                    <FontAwesomeIcon icon={faEdit} />
+                    Editar
+                    {/* <FontAwesomeIcon icon={faEdit} /> */}
                   </Button>
                   <Button
                     onClick={() => handleDeleteUser(user._id)}
                     disabled={!loggedUser?.isAdmin}
                   >
-                    <FontAwesomeIcon icon={faTrash} />
+                    Excluir
+                    {/* <FontAwesomeIcon icon={faTrash} /> */}
                   </Button>
-                </Td>
-              </Tr>
+                </td>
+              </tr>
             ))}
         </tbody>
       </table>
