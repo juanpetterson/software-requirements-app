@@ -1,9 +1,10 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
+import IUser from '../Models/user';
 import api from '../services/api';
 
 interface AuthContextData {
   signed: boolean;
-  user: object | null;
+  user: IUser | null;
   login(email: string, password: string): Promise<void>;
   logout(): Promise<void>;
 }
@@ -11,16 +12,32 @@ interface AuthContextData {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const [user, setUser] = useState<object | null>(null);
+  const [user, setUser] = useState<IUser | null>(null);
+
+  useEffect(() => {
+    const loadStoredUser = async () => {
+      const token = localStorage.getItem('@app/token');
+
+      if (token) {
+        api.defaults.headers.Authorization = `Bearer ${token}`;
+
+        const { data: user } = await api.post('/me');
+        setUser(user);
+      }
+    };
+
+    loadStoredUser();
+  }, []);
 
   const login = async (email: string, password: string) => {
-    const response = await api.post('/authenticate', {
+    const { data } = await api.post('/authenticate', {
       email,
       password,
     });
 
-    setUser(response.data.user);
-    api.defaults.headers.Authorization = `Bearer ${response.data.token}`;
+    api.defaults.headers.Authorization = `Bearer ${data.token}`;
+    localStorage.setItem('@app/token', data.token);
+    setUser(data.user);
   };
 
   const logout = async () => {
