@@ -7,12 +7,15 @@ interface AuthContextData {
   user: IUser | null;
   login(email: string, password: string): Promise<void>;
   logout(): Promise<void>;
+  error: string | null;
+  clearError: () => void;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<IUser | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadStoredUser = async () => {
@@ -21,7 +24,7 @@ export const AuthProvider: React.FC = ({ children }) => {
       if (token) {
         api.defaults.headers.Authorization = `Bearer ${token}`;
 
-        const { data: user } = await api.post('/me');
+        const { data: user } = await api.get('/me');
         setUser(user);
       }
     };
@@ -30,23 +33,38 @@ export const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   const login = async (email: string, password: string) => {
-    const { data } = await api.post('/authenticate', {
-      email,
-      password,
-    });
+    try {
+      const { data } = await api.post('/authenticate', {
+        email,
+        password,
+      });
 
-    api.defaults.headers.Authorization = `Bearer ${data.token}`;
-    localStorage.setItem('@app/token', data.token);
-    setUser(data.user);
+      api.defaults.headers.Authorization = `Bearer ${data.token}`;
+      localStorage.setItem('@app/token', data.token);
+      setUser(data.user);
+      setError(null);
+    } catch ({ response }) {
+      console.dir(error);
+      if (response.status === 401) {
+        setError('Usuário e/ou senha incorretos');
+      }
+    }
   };
 
   const logout = async () => {
     setUser(null);
     api.defaults.headers.Authorization = ``;
+    localStorage.removeItem('@app/token');
+  };
+
+  const clearError = () => {
+    setError(null);
   };
 
   return (
-    <AuthContext.Provider value={{ signed: true, user, login, logout }}>
+    <AuthContext.Provider
+      value={{ signed: true, user, login, logout, error, clearError }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -10,12 +10,13 @@ import {
   InputField,
   Button,
   LoginContainer,
+  ErrorMessage,
 } from './Login.styles';
 
 export interface ILoginProps {}
 
 export function Login(props: ILoginProps) {
-  const { login } = useAuth();
+  const { login, error, clearError } = useAuth();
 
   const [state, setState] = useState({
     email: '',
@@ -23,6 +24,8 @@ export function Login(props: ILoginProps) {
   });
 
   const handleChange = (event: any) => {
+    clearError();
+
     const name = event?.target?.name;
     setState({
       ...state,
@@ -38,6 +41,7 @@ export function Login(props: ILoginProps) {
     <Wrapper>
       <Container>
         <Header>Entrar</Header>
+        <ErrorMessage>{error}</ErrorMessage>
         <InputContainer>
           <label htmlFor="email">Email</label>
           <InputField

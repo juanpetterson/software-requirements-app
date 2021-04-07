@@ -43,11 +43,6 @@ export const InputField = styled('input', {
   width: '100%',
 });
 
-export const InputCheckbox = styled('input', {
-  width: '16px',
-  height: '16px',
-});
-
 export const Button = styled('button', {
   padding: '15px',
   border: 'none',
@@ -70,4 +65,9 @@ export const Button = styled('button', {
       },
     },
   },
+});
+
+export const ErrorMessage = styled('span', {
+  color: 'red',
+  marginBottom: '10px',
 });
