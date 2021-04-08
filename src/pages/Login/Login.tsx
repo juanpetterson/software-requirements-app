@@ -70,12 +70,6 @@ export function Login(props: ILoginProps) {
           >
             Entrar
           </Button>
-          {/* <span style={{ marginBottom: '15px' }}>Ou</span>
-          <strong>
-            <Link style={{ textDecoration: 'none' }} to="/users">
-              Registrar-se
-            </Link>
-          </strong> */}
         </LoginContainer>
       </Container>
     </Wrapper>
