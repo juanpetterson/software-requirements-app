@@ -13,13 +13,11 @@ import {
   InputField,
   SelectField,
   TextField,
-} from './SoftwareRequirementsForm.styles';
+} from './RequirementForm.styles';
 
-export interface ISoftwareRequirementsFormProps {}
+export interface IRequirementFormProps {}
 
-export function SoftwareRequirementsForm(
-  props: ISoftwareRequirementsFormProps,
-) {
+export function RequirementForm(props: IRequirementFormProps) {
   const [selectedValue, setSelectedValue] = React.useState('functional');
   const [state, setState] = React.useState({
     priority: '',
@@ -41,7 +39,7 @@ export function SoftwareRequirementsForm(
   return (
     <Wrapper>
       <Container>
-        <Header>Cadastro de requisítos de software</Header>
+        <Header>Cadastro de requisíto de software</Header>
         <InputContainer>
           <label htmlFor="code">Código</label>
           <InputField id="code" />

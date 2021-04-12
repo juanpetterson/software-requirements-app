@@ -62,10 +62,10 @@ export function UserForm({ userId }: IUserFormProps) {
 
     const action = userId ? updateUser : addUser;
     await action(user);
-    setLocation('/users/list');
+    setLocation('/user/list');
   };
   const handleCancel = () => {
-    setLocation(userId ? '/users/list' : '/');
+    setLocation(userId ? '/user/list' : '/');
   };
 
   const handleChange = (event: any) => {

@@ -2,7 +2,8 @@ import React from 'react';
 import { Switch } from 'wouter';
 
 import { Home } from '../pages/Home/Home';
-import { SoftwareRequirementsForm } from '../pages/SoftwareRequirementsForm/SoftwareRequirementsForm';
+import { RequirementForm } from '../pages/RequirementForm/RequirementForm';
+import { ProjectForm } from '../pages/ProjectForm/ProjectForm';
 import { UserForm } from '../pages/UserForm/UserForm';
 import { Login as LoginPage } from '../pages/Login/Login';
 import { Route } from './Router';
@@ -14,17 +15,23 @@ const Routes = () => {
       <Route path="/" isPrivate>
         <Home />
       </Route>
-      <Route path="/software-requirements" isPrivate>
-        <SoftwareRequirementsForm />
-      </Route>
-      <Route path="/users/add" isPrivate>
+      <Route path="/user/add" isPrivate>
         <UserForm />
       </Route>
-      <Route path="/users/:id/edit" isPrivate>
+      <Route path="/user/:id/edit" isPrivate>
         {params => <UserForm userId={params.id} />}
       </Route>
-      <Route path="/users/list" isPrivate>
+      <Route path="/user/list" isPrivate>
         <UsersList />
+      </Route>
+      <Route path="/requirement" isPrivate>
+        <RequirementForm />
+      </Route>
+      <Route path="/project" isPrivate>
+        <ProjectForm />
+      </Route>
+      <Route path="/project/:id/edit" isPrivate>
+        <ProjectForm />
       </Route>
       <Route path="/login" isAuthPage>
         <LoginPage />

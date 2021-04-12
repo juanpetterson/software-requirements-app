@@ -27,7 +27,7 @@ export function UsersList(props: IUsersListProps) {
 
   const handleEditUser = (id: string | undefined) => {
     if (id) {
-      setLocation(`/users/${id}/edit`);
+      setLocation(`/user/${id}/edit`);
     }
   };
 

@@ -1,12 +1,10 @@
 import { styled } from '../../stitches.config';
 
-export const Wrapper = styled('div', {
-  height: 'calc(100vh - 125px)',
-  position: 'relative',
-});
+export const Wrapper = styled('div', {});
 
 export const Container = styled('div', {
-  paddingBottom: '120px',
+  height: '100%',
+  marginBottom: '100px',
 });
 
 export const Header = styled('div', {
