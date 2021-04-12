@@ -1,7 +1,18 @@
-import * as React from 'react';
+import React from 'react';
+
+import { ProjectCard } from '../../components/ProjectCard/ProjectCard';
+
+import { Container } from './Home.styles';
 
 export interface IHomeProps {}
 
 export function Home(props: IHomeProps) {
-  return <div>Teste</div>;
+  return (
+    <Container>
+      <ProjectCard />
+      <ProjectCard />
+      <ProjectCard />
+      <ProjectCard />
+    </Container>
+  );
 }

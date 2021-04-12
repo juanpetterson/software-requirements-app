@@ -61,10 +61,11 @@ function Header({ brand, toggleTheme }: IHeaderProps) {
                     Cadastros
                   </NavDropMenuItem>
                   <NavDropMenuContent className="dropdown-content">
-                    <CustomLink url="/software-requirements">
+                    <CustomLink url="/requirement">
                       Requisitos de Software
                     </CustomLink>
-                    <CustomLink url="/users/add">Usuários</CustomLink>
+                    <CustomLink url="/project">Projeto de Software</CustomLink>
+                    <CustomLink url="/user/add">Usuários</CustomLink>
                   </NavDropMenuContent>
                 </NavDropMenu>
               )}
@@ -73,7 +74,7 @@ function Header({ brand, toggleTheme }: IHeaderProps) {
                   Listas
                 </NavDropMenuItem>
                 <NavDropMenuContent className="dropdown-content">
-                  <CustomLink url="/users/list">Usuários</CustomLink>
+                  <CustomLink url="/user/list">Usuários</CustomLink>
                 </NavDropMenuContent>
               </NavDropMenu>
             </div>

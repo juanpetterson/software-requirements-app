@@ -20,7 +20,7 @@ function App() {
     <AuthProvider>
       <div style={{ backgroundColor: '$background', height: '100%' }}>
         <Header brand="Requisitos de Software" toggleTheme={toggleTheme} />
-        <div style={{ padding: '30px 20px' }}>
+        <div style={{ padding: '20px' }}>
           <Routes />
         </div>
       </div>
