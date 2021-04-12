@@ -1,12 +1,14 @@
 import { styled } from '../../stitches.config';
 
 export const Container = styled('div', {
-  position: 'absolute',
-  bottom: '0',
   display: 'flex',
-  justifyContent: 'space-between',
+  position: 'fixed',
+  bottom: '0',
+  left: '0',
   width: '100%',
   height: '4rem',
+  padding: '0 20px',
+  justifyContent: 'space-between',
   alignItems: 'center',
   background: 'white',
 });
