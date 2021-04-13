@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 import IUser from '../../Models/user';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { getUsers, deleteUser } from '../../services/userService';
 
-import { Button, Td, Th, Tr, TrHead } from './UserList.styles';
+import { Button } from './UserList.styles';
 import { useAuth } from '../../hooks/useAuth';
 
 export interface IUsersListProps {}
@@ -94,14 +92,12 @@ export function UsersList(props: IUsersListProps) {
                     disabled={!loggedUser?.isAdmin}
                   >
                     Editar
-                    {/* <FontAwesomeIcon icon={faEdit} /> */}
                   </Button>
                   <Button
                     onClick={() => handleDeleteUser(user._id)}
                     disabled={!loggedUser?.isAdmin}
                   >
                     Excluir
-                    {/* <FontAwesomeIcon icon={faTrash} /> */}
                   </Button>
                 </td>
               </tr>
