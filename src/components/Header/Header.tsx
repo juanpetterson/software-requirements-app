@@ -61,9 +61,6 @@ function Header({ brand, toggleTheme }: IHeaderProps) {
                     Cadastros
                   </NavDropMenuItem>
                   <NavDropMenuContent className="dropdown-content">
-                    <CustomLink url="/requirement">
-                      Requisitos de Software
-                    </CustomLink>
                     <CustomLink url="/project">Projeto de Software</CustomLink>
                     <CustomLink url="/user/add">Usuários</CustomLink>
                   </NavDropMenuContent>
