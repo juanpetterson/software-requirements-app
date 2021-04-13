@@ -15,9 +15,15 @@ import {
   TextField,
 } from './RequirementForm.styles';
 
-export interface IRequirementFormProps {}
+export interface IRequirementFormProps {
+  projectId: string;
+  requirementId: string;
+}
 
-export function RequirementForm(props: IRequirementFormProps) {
+export function RequirementForm({
+  projectId,
+  requirementId,
+}: IRequirementFormProps) {
   const [selectedValue, setSelectedValue] = React.useState('functional');
   const [state, setState] = React.useState({
     priority: '',
