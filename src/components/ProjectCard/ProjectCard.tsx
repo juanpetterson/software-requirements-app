@@ -1,17 +1,42 @@
 import React from 'react';
+import { useLocation } from 'wouter';
+import { deleteProject } from '../../services/projectService';
 
 import { Container, Title, Buttons, Button } from './ProjectCard.styles';
 
-export interface IProjectCardProps {}
+export interface IProjectCardProps {
+  title: string;
+  projectId: string | undefined;
+}
 
-export function ProjectCard(props: IProjectCardProps) {
+export function ProjectCard({ title, projectId }: IProjectCardProps) {
+  const [location, setLocation] = useLocation();
+
+  const handleEditProject = () => {
+    setLocation(`/project/${projectId}/edit`);
+  };
+  const handleDeleteProject = () => {
+    if (projectId) {
+      deleteProject(projectId);
+    }
+  };
+  const handleProjectRequirements = () => {
+    setLocation(`/project/${projectId}/requirement`);
+  };
+
   return (
     <Container>
-      <Title>Project Card</Title>
+      <Title>{title}</Title>
       <Buttons>
-        <Button color="primary">Editar</Button>
-        <Button color="red">Excluir</Button>
-        <Button color="green">Requisíto</Button>
+        <Button color="primary" onClick={handleEditProject}>
+          Editar
+        </Button>
+        <Button color="red" onClick={handleDeleteProject}>
+          Excluir
+        </Button>
+        <Button color="green" onClick={handleProjectRequirements}>
+          Requisítos
+        </Button>
       </Buttons>
     </Container>
   );
