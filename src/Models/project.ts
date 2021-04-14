@@ -4,7 +4,7 @@ export default interface IProject {
   area?: string;
   port?: string;
   targets?: string;
-  observations?: number;
+  observations?: string;
   createdAt: Date;
   updatedAt: Date;
 }
