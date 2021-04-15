@@ -4,8 +4,10 @@ export default interface IRequirement {
   code: string;
   requirement: string;
   description: string;
+  observations: string;
   priority: string;
   complexity: string;
+  versioning: number;
   createdAt: Date;
   updatedAt: Date;
 }

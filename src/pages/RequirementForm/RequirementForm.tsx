@@ -24,7 +24,7 @@ import {
 
 export interface IRequirementFormProps {
   projectId: string;
-  requirementId: string;
+  requirementId?: string;
 }
 
 export function RequirementForm({
@@ -40,6 +40,7 @@ export function RequirementForm({
     complexity: '',
     priority: '',
     type: 'FUNCTIONAL',
+    versioning: 1,
   });
 
   useEffect(() => {
@@ -62,6 +63,7 @@ export function RequirementForm({
     complexity,
     priority,
     type,
+    versioning,
   }: IRequirement) => {
     setState({
       ...state,
@@ -71,6 +73,7 @@ export function RequirementForm({
       complexity,
       priority,
       type,
+      versioning: versioning + 1,
     });
   };
 
@@ -102,38 +105,65 @@ export function RequirementForm({
         <Header>Cadastro de requisíto de software</Header>
         <InputContainer>
           <label htmlFor="code">Código</label>
-          <InputField id="code" />
+          <InputField
+            id="code"
+            name="code"
+            value={state.code}
+            onChange={handleChange}
+          />
         </InputContainer>
         <InputContainer>
           <label htmlFor="requirement">Requisito</label>
-          <InputField id="requirement" />
+          <InputField
+            id="requirement"
+            name="requirement"
+            value={state.requirement}
+            onChange={handleChange}
+          />
         </InputContainer>
         <InputContainer>
           <label htmlFor="description">Descrição</label>
-          <TextField style={{ width: '350px' }} id="description" rows={6} />
+          <TextField
+            style={{ width: '350px' }}
+            id="description"
+            rows={6}
+            name="description"
+            value={state.description}
+            onChange={handleChange}
+          />
         </InputContainer>
         <InputContainer>
-          <SelectField value={state.priority} onChange={handleChange}>
-            <option style={{ color: 'black' }} value={10}>
+          <SelectField
+            id="priority"
+            name="priority"
+            value={state.priority}
+            onChange={handleChange}
+          >
+            <option style={{ color: 'black' }} value="high">
               Prioridade Alta
             </option>
-            <option style={{ color: 'black' }} value={20}>
+            <option style={{ color: 'black' }} value="medium">
               Prioridade Média
             </option>
-            <option style={{ color: 'black' }} value={30}>
+            <option style={{ color: 'black' }} value="small">
               Prioridade Baixa
             </option>
           </SelectField>
         </InputContainer>
         <InputContainer>
-          <SelectField value={state.complexity} onChange={handleChange}>
-            <option style={{ color: 'black' }} value={10}>
+          <SelectField
+            id="complexity"
+            name="complexity"
+            value={state.complexity}
+            onChange={handleChange}
+          >
+            <option style={{ color: 'black' }} value="high">
               Complexidade Alta
             </option>
-            <option style={{ color: 'black' }} value={20}>
+            <option style={{ color: 'black' }} value="medium">
               Complexidade Média
             </option>
-            <option style={{ color: 'black' }} value={30}>
+            <option style={{ color: 'black' }} value="small">
               Complexidade Baixa
             </option>
           </SelectField>
@@ -141,6 +171,8 @@ export function RequirementForm({
         <div>
           <RadioGroup
             style={{ display: 'flex', flexDirection: 'row' }}
+            id="type"
+            name="type"
             value={state.type}
             onChange={handleChange}
           >
@@ -156,8 +188,27 @@ export function RequirementForm({
             />
           </RadioGroup>
         </div>
+        <InputContainer>
+          <label htmlFor="versioning">Versionamento</label>
+          <InputField
+            id="versioning"
+            name="versioning"
+            value={state.versioning}
+            onChange={handleChange}
+            disabled
+            style={{
+              backgroundColor: 'lightgray',
+              color: 'gray',
+              borderColor: 'gray',
+            }}
+          />
+        </InputContainer>
       </Container>
-      <FormFooter onCancel={handleCancel} onConfirm={handleConfirm} />
+      <FormFooter
+        onCancel={handleCancel}
+        onConfirm={handleConfirm}
+        isEdit={!!requirementId}
+      />
     </Wrapper>
   );
 }
