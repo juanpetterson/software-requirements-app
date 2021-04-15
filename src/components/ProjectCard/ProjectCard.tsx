@@ -21,7 +21,7 @@ export function ProjectCard({ title, projectId }: IProjectCardProps) {
     }
   };
   const handleProjectRequirements = () => {
-    setLocation(`/project/${projectId}/requirement`);
+    setLocation(`/project/${projectId}/requirement/list`);
   };
 
   return (

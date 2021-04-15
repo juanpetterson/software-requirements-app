@@ -7,11 +7,12 @@ export const Container = styled('div', {
   alignItems: 'center',
   padding: '10px',
   margin: '10px',
-  border: '1px solid lightgray',
+  // border: '2px solid lightgray',
   borderRadius: '5px',
   maxWidth: '280px',
   width: '100%',
   height: '140px',
+  backgroundColor: '#e8eae6',
 });
 
 export const Title = styled('div', {});
@@ -27,17 +28,18 @@ export const Button = styled('button', {
   margin: '5px',
   border: 'none',
   outline: 'none',
+  color: 'white',
 
   variants: {
     color: {
       primary: {
-        backgroundColor: 'blue',
+        backgroundColor: 'rgb(33,150,243)',
       },
       red: {
-        backgroundColor: 'red',
+        backgroundColor: 'rgb(244,67,54)',
       },
       green: {
-        backgroundColor: 'green',
+        backgroundColor: 'rgb(76,175,80)',
       },
     },
   },
