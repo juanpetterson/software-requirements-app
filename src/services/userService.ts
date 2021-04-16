@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import IUser from '../Models/user';
+import IUser from '../models/user';
 import api from './api';
 
 export const addUser = async (data: IUser): Promise<AxiosResponse<IUser>> => {

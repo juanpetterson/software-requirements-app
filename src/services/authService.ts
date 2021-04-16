@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { IAuthResponse } from '../Models/auth';
+import { IAuthResponse } from '../models/auth';
 import api from './api';
 
 export const authenticate = async (

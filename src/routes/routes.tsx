@@ -7,7 +7,7 @@ import { ProjectForm } from '../pages/ProjectForm/ProjectForm';
 import { UserForm } from '../pages/UserForm/UserForm';
 import { Login as LoginPage } from '../pages/Login/Login';
 import { Route } from './Router';
-import { UsersList } from '../pages/UsersList/UsersList';
+import { UserList } from '../pages/UserList/UserList';
 import { RequirementList } from '../pages/RequirementList/RequirementList';
 
 const Routes = () => {
@@ -23,22 +23,28 @@ const Routes = () => {
         {params => <UserForm userId={params.id} />}
       </Route>
       <Route path="/user/list" isPrivate>
-        <UsersList />
+        <UserList />
       </Route>
       <Route path="/project" isPrivate>
         <ProjectForm />
       </Route>
-      <Route path="/project/:id/edit" isPrivate>
+      <Route path="/project/:projectId/edit" isPrivate>
         {params => <ProjectForm projectId={params.projectId} />}
       </Route>
-      <Route path="/project/:projectId/requirement" isPrivate>
+      <Route path="/project/:projectId/requirement/list" isPrivate>
         {params => <RequirementList projectId={params.projectId} />}
       </Route>
-      <Route path="/project/:projectId/requirement/:id" isPrivate>
+      <Route path="/project/:projectId/requirement/add" isPrivate>
+        {params => <RequirementForm projectId={params.projectId} />}
+      </Route>
+      <Route
+        path="/project/:projectId/requirement/:requirementId/edit"
+        isPrivate
+      >
         {params => (
           <RequirementForm
             projectId={params.projectId}
-            requirementId={params.id}
+            requirementId={params.requirementId}
           />
         )}
       </Route>
