@@ -58,3 +58,8 @@ export const Button = styled('button', {
     },
   },
 });
+
+export const ErrorMessage = styled('span', {
+  color: 'red',
+  marginBottom: '10px',
+});
