@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 
 import { ProjectCard } from '../../components/ProjectCard/ProjectCard';
 
-import { Container } from './Home.styles';
+import { Container, Header, Content } from './Home.styles';
 
-import { getProjects, deleteProject } from '../../services/projectService';
+import { getProjects } from '../../services/projectService';
 import IProject from '../../models/project';
 
 export interface IHomeProps {}
@@ -24,10 +24,17 @@ export function Home(props: IHomeProps) {
 
   return (
     <Container>
-      {projects &&
-        projects.map(project => (
-          <ProjectCard title={project.name} projectId={project._id} />
-        ))}
+      <Header>Projetos de software</Header>
+      <Content>
+        {projects &&
+          projects.map(project => (
+            <ProjectCard
+              key={project._id}
+              title={project.name}
+              projectId={project._id}
+            />
+          ))}
+      </Content>
     </Container>
   );
 }
