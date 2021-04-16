@@ -101,15 +101,30 @@ export function ProjectForm({ projectId }: IProjectFormProps) {
         </InputContainer>
         <InputContainer>
           <label htmlFor="area">Área de atuação</label>
-          <InputField id="area" name="area" value={state.area} />
+          <InputField
+            id="area"
+            name="area"
+            value={state.area}
+            onChange={handleChange}
+          />
         </InputContainer>
         <InputContainer>
           <label htmlFor="port">Porte</label>
-          <InputField id="port" name="port" value={state.port} />
+          <InputField
+            id="port"
+            name="port"
+            value={state.port}
+            onChange={handleChange}
+          />
         </InputContainer>
         <InputContainer>
           <label htmlFor="targets">Dispositivo alvo</label>
-          <InputField id="targets" name="targets" value={state.targets} />
+          <InputField
+            id="targets"
+            name="targets"
+            value={state.targets}
+            onChange={handleChange}
+          />
         </InputContainer>
         <InputContainer>
           <label htmlFor="observations">Observações</label>
@@ -119,10 +134,15 @@ export function ProjectForm({ projectId }: IProjectFormProps) {
             name="observations"
             rows={6}
             value={state.observations}
+            onChange={handleChange}
           />
         </InputContainer>
       </Container>
-      <FormFooter onCancel={handleCancel} onConfirm={handleConfirm} />
+      <FormFooter
+        onCancel={handleCancel}
+        onConfirm={handleConfirm}
+        isEdit={!!projectId}
+      />
     </Wrapper>
   );
 }
