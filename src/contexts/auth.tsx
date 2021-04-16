@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import IUser from '../Models/user';
+import IUser from '../models/user';
 import api from '../services/api';
 
 interface AuthContextData {
@@ -44,7 +44,6 @@ export const AuthProvider: React.FC = ({ children }) => {
       setUser(data.user);
       setError(null);
     } catch ({ response }) {
-      console.dir(error);
       if (response.status === 401) {
         setError('Usuário e/ou senha incorretos');
       }
