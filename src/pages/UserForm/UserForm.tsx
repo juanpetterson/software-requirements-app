@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 
 import { FormFooter } from '../../components/FormFooter/FormFooter';
-import { useAuth } from '../../hooks/useAuth';
 import IUser from '../../Models/user';
 import { getUser, addUser, updateUser } from '../../services/userService';
 

@@ -7,9 +7,9 @@ import { getUsers, deleteUser } from '../../services/userService';
 import { Button } from './UserList.styles';
 import { useAuth } from '../../hooks/useAuth';
 
-export interface IUsersListProps {}
+export interface IUserListProps {}
 
-export function UsersList(props: IUsersListProps) {
+export function UserList(props: IUserListProps) {
   const { user: loggedUser } = useAuth();
   const [location, setLocation] = useLocation();
   const [usersList, setUsersList] = useState<IUser[]>([]);
