@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
-import IUser from '../../Models/user';
 
 import {
   getRequirements,
@@ -21,25 +20,30 @@ export function RequirementList({ projectId }: IRequirementListProps) {
   const [requirementList, setRequirementList] = useState<IRequirement[]>([]);
 
   useEffect(() => {
-    loadUsers();
+    loadRequirements();
   }, []);
 
-  const loadUsers = async () => {
+  const loadRequirements = async () => {
+    console.log(projectId);
     const { data: requirements } = await getRequirements(projectId);
     setRequirementList(requirements);
   };
 
   const handleEditRequirement = (id: string | undefined) => {
     if (id) {
-      setLocation(`/user/${id}/edit`);
+      setLocation(`/project/${projectId}/requirement/${id}/edit`);
     }
   };
 
   const handleDeleteRequirement = async (id: string | undefined) => {
     if (id) {
       await deleteRequirement(id);
-      loadUsers();
+      loadRequirements();
     }
+  };
+
+  const handleAddRequirement = () => {
+    setLocation(`/project/${projectId}/requirement/add`);
   };
 
   return (
@@ -47,6 +51,9 @@ export function RequirementList({ projectId }: IRequirementListProps) {
       className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
       style={{ overflow: 'auto' }}
     >
+      <div>
+        <Button onClick={handleAddRequirement}>Adicionar requisíto</Button>
+      </div>
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
@@ -54,19 +61,25 @@ export function RequirementList({ projectId }: IRequirementListProps) {
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Nome
+              Código
             </th>
             <th
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Email
+              Requisíto
             </th>
             <th
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Função
+              Descrição
+            </th>
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Versionamento
             </th>
             <th
               scope="col"
@@ -78,17 +91,40 @@ export function RequirementList({ projectId }: IRequirementListProps) {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {requirementList &&
-            requirementList.map(user => (
-              <tr key={user._id}>
-                <td className="px-6 py-4 whitespace-nowrap">{user.code}</td>
+            requirementList.map(requirement => (
+              <tr key={requirement._id}>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {user.requirement}
+                  {requirement.code}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {user.description}
+                  {requirement.requirement}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {user.observations}
+                  {requirement.description}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {requirement.versioning}
+                </td>
+                <td
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-around',
+                    alignItems: 'center',
+                  }}
+                  className="px-6 py-4 whitespace-nowrap"
+                >
+                  <Button
+                    onClick={() => handleEditRequirement(requirement._id)}
+                    disabled={!loggedUser?.isAdmin}
+                  >
+                    Editar
+                  </Button>
+                  <Button
+                    onClick={() => handleDeleteRequirement(requirement._id)}
+                    disabled={!loggedUser?.isAdmin}
+                  >
+                    Excluir
+                  </Button>
                 </td>
               </tr>
             ))}
