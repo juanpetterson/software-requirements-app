@@ -24,9 +24,25 @@ export function RequirementList({ projectId }: IRequirementListProps) {
   }, []);
 
   const loadRequirements = async () => {
-    console.log(projectId);
     const { data: requirements } = await getRequirements(projectId);
-    setRequirementList(requirements);
+
+    console.log(requirements);
+
+    const requirementsList: IRequirement[] = [];
+
+    requirements.forEach(requirement => {
+      if (
+        !requirementsList.some(
+          (req: IRequirement) => req.code === requirement.code,
+        )
+      ) {
+        requirementsList.push(requirement);
+      }
+    });
+
+    requirementsList.sort((a, b) => (a.code > b.code ? 1 : -1));
+
+    setRequirementList(requirementsList);
   };
 
   const handleEditRequirement = (id: string | undefined) => {
@@ -117,7 +133,7 @@ export function RequirementList({ projectId }: IRequirementListProps) {
                     onClick={() => handleEditRequirement(requirement._id)}
                     disabled={!loggedUser?.isAdmin}
                   >
-                    Editar
+                    Versionar
                   </Button>
                   <Button
                     onClick={() => handleDeleteRequirement(requirement._id)}
