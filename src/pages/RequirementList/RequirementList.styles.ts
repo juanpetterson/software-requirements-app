@@ -37,3 +37,8 @@ export const Th = styled('th', {
 export const Td = styled('td', {
   padding: '5px',
 });
+
+export const ButtonsContainer = styled('div', {
+  display: 'flex',
+  justifyContent: 'space-between',
+});

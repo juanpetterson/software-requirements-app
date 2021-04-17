@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createRef } from 'react';
 import { useLocation } from 'wouter';
+import Pdf from 'react-to-pdf';
 
 import {
   getRequirements,
   deleteRequirement,
 } from '../../services/requirementService';
 
-import { Button } from './RequirementList.styles';
+import { ButtonsContainer, Button } from './RequirementList.styles';
 import { useAuth } from '../../hooks/useAuth';
 import IRequirement from '../../models/requirement';
 
@@ -15,6 +16,7 @@ export interface IRequirementListProps {
 }
 
 export function RequirementList({ projectId }: IRequirementListProps) {
+  const ref = createRef<HTMLTableElement>();
   const { user: loggedUser } = useAuth();
   const [location, setLocation] = useLocation();
   const [requirementList, setRequirementList] = useState<IRequirement[]>([]);
@@ -63,89 +65,94 @@ export function RequirementList({ projectId }: IRequirementListProps) {
   };
 
   return (
-    <div
-      className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
-      style={{ overflow: 'auto' }}
-    >
-      <div>
-        <Button onClick={handleAddRequirement}>Adicionar requisíto</Button>
+    <>
+      <div
+        className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
+        style={{ overflow: 'auto' }}
+      >
+        <ButtonsContainer>
+          <Button onClick={handleAddRequirement}>Adicionar requisíto</Button>
+          <Pdf targetRef={ref} filename="requirements-list.pdf">
+            {({ toPdf }) => <Button onClick={toPdf}>Gerar PDF</Button>}
+          </Pdf>
+        </ButtonsContainer>
+        <table className="min-w-full divide-y divide-gray-200" ref={ref}>
+          <thead className="bg-gray-50">
+            <tr>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Código
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Requisíto
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Descrição
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Versionamento
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Ações
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {requirementList &&
+              requirementList.map(requirement => (
+                <tr key={requirement._id}>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {requirement.code}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {requirement.requirement}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {requirement.description}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {requirement.versioning}
+                  </td>
+                  <td
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-around',
+                      alignItems: 'center',
+                    }}
+                    className="px-6 py-4 whitespace-nowrap"
+                  >
+                    <Button
+                      onClick={() => handleEditRequirement(requirement._id)}
+                      disabled={!loggedUser?.isAdmin}
+                    >
+                      Versionar
+                    </Button>
+                    <Button
+                      onClick={() => handleDeleteRequirement(requirement._id)}
+                      disabled={!loggedUser?.isAdmin}
+                    >
+                      Excluir
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
       </div>
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
-          <tr>
-            <th
-              scope="col"
-              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Código
-            </th>
-            <th
-              scope="col"
-              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Requisíto
-            </th>
-            <th
-              scope="col"
-              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Descrição
-            </th>
-            <th
-              scope="col"
-              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Versionamento
-            </th>
-            <th
-              scope="col"
-              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Ações
-            </th>
-          </tr>
-        </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
-          {requirementList &&
-            requirementList.map(requirement => (
-              <tr key={requirement._id}>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {requirement.code}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {requirement.requirement}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {requirement.description}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {requirement.versioning}
-                </td>
-                <td
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-around',
-                    alignItems: 'center',
-                  }}
-                  className="px-6 py-4 whitespace-nowrap"
-                >
-                  <Button
-                    onClick={() => handleEditRequirement(requirement._id)}
-                    disabled={!loggedUser?.isAdmin}
-                  >
-                    Versionar
-                  </Button>
-                  <Button
-                    onClick={() => handleDeleteRequirement(requirement._id)}
-                    disabled={!loggedUser?.isAdmin}
-                  >
-                    Excluir
-                  </Button>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
-    </div>
+    </>
   );
 }
