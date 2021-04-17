@@ -19,7 +19,6 @@ import {
 import IRequirement from '../../models/requirement';
 import {
   getRequirement,
-  updateRequirement,
   addRequirement,
 } from '../../services/requirementService';
 
@@ -34,7 +33,6 @@ export function RequirementForm({
 }: IRequirementFormProps) {
   const [location, setLocation] = useLocation();
   const [currentRequirement, setCurrentRequirement] = useState<IRequirement>();
-  const [error, setError] = useState<string>('');
   const [state, setState] = useState<Partial<IRequirement>>({
     code: '',
     requirement: '',
@@ -80,21 +78,14 @@ export function RequirementForm({
   };
 
   const handleConfirm = async () => {
-    try {
-      const requirement = {
-        ...currentRequirement,
-        ...state,
-        projectId,
-      } as IRequirement;
+    const requirement = {
+      ...currentRequirement,
+      ...state,
+      projectId,
+    } as IRequirement;
 
-      const action = requirementId ? updateRequirement : addRequirement;
-      await action(requirement);
-      setLocation(`/project/${projectId}/requirement/list`);
-    } catch (error) {
-      if (error.response.status === 409) {
-        setError('Este código já existe para este projeto!');
-      }
-    }
+    await addRequirement(requirement);
+    setLocation(`/project/${projectId}/requirement/list`);
   };
   const handleCancel = () => {
     setLocation(`/project/${projectId}/requirement/list`);
@@ -112,7 +103,6 @@ export function RequirementForm({
     <Wrapper>
       <Container>
         <Header>Cadastro de requisíto de software</Header>
-        {error && <ErrorMessage>{error}</ErrorMessage>}
         <InputContainer>
           <label htmlFor="code">Código</label>
           <InputField
