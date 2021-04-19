@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createRef } from 'react';
 import { useLocation } from 'wouter';
-import IUser from '../../Models/user';
+import Pdf from 'react-to-pdf';
 
+import IUser from '../../models/user';
 import { getUsers, deleteUser } from '../../services/userService';
 
-import { Button } from './UserList.styles';
+import { Button, ButtonsContainer } from './UserList.styles';
 import { useAuth } from '../../hooks/useAuth';
 
 export interface IUserListProps {}
 
 export function UserList(props: IUserListProps) {
+  const ref = createRef<HTMLTableElement>();
   const { user: loggedUser } = useAuth();
   const [location, setLocation] = useLocation();
   const [usersList, setUsersList] = useState<IUser[]>([]);
@@ -41,7 +43,12 @@ export function UserList(props: IUserListProps) {
       className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
       style={{ overflow: 'auto' }}
     >
-      <table className="min-w-full divide-y divide-gray-200">
+      <ButtonsContainer>
+        <Pdf targetRef={ref} filename="lista-de-usuarios.pdf">
+          {({ toPdf }) => <Button onClick={toPdf}>Gerar PDF</Button>}
+        </Pdf>
+      </ButtonsContainer>
+      <table className="min-w-full divide-y divide-gray-200" ref={ref}>
         <thead className="bg-gray-50">
           <tr>
             <th
