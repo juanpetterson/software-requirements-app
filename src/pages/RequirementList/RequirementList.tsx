@@ -72,7 +72,7 @@ export function RequirementList({ projectId }: IRequirementListProps) {
       >
         <ButtonsContainer>
           <Button onClick={handleAddRequirement}>Adicionar requisíto</Button>
-          <Pdf targetRef={ref} filename="requirements-list.pdf">
+          <Pdf targetRef={ref} filename="lista-de-requisitos.pdf">
             {({ toPdf }) => <Button onClick={toPdf}>Gerar PDF</Button>}
           </Pdf>
         </ButtonsContainer>
