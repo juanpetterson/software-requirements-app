@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
+import { useForm, Controller } from 'react-hook-form';
 
 import { FormFooter } from '../../components/FormFooter/FormFooter';
 import IUser from '../../models/user';
@@ -18,15 +19,17 @@ import {
   InputCheckbox,
 } from './UserForm.styles';
 
+interface IFormInput {
+  name: string;
+  email: string;
+  password: string;
+  isAdmin: boolean;
+}
+
 export function UserForm({ userId }: IUserFormProps) {
+  const { handleSubmit, setValue, control } = useForm<IFormInput>();
   const [location, setLocation] = useLocation();
   const [currentUser, setCurrentUser] = useState<IUser>();
-  const [state, setState] = useState({
-    name: '',
-    email: '',
-    password: '',
-    isAdmin: false,
-  });
 
   useEffect(() => {
     const loadUser = async () => {
@@ -42,87 +45,91 @@ export function UserForm({ userId }: IUserFormProps) {
   }, []);
 
   const populateFieldsWithUserData = (user: IUser) => {
-    setState({
-      ...state,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
+    Object.entries(user).forEach(([key, value]) => {
+      if (key !== 'password') {
+        setValue(key as any, value);
+      }
     });
   };
 
-  const handleConfirm = async () => {
-    const user = {
-      ...currentUser,
-      name: state.name,
-      password: state.password,
-      email: state.email,
-      isAdmin: state.isAdmin,
-    } as IUser;
-
+  const handleConfirm = async (data: IFormInput) => {
     const action = userId ? updateUser : addUser;
-    await action(user);
+    await action(data);
     setLocation('/user/list');
   };
   const handleCancel = () => {
     setLocation(userId ? '/user/list' : '/');
   };
 
-  const handleChange = (event: any) => {
-    const name = event?.target?.name;
-    setState({
-      ...state,
-      [name]: event?.target?.value,
-    });
-  };
-
   return (
     <Wrapper>
       <Container>
         <Header>Cadastro de usuário</Header>
-        <InputContainer>
-          <label htmlFor="name">Nome</label>
-          <InputField
-            id="name"
-            name="name"
-            value={state.name}
-            onChange={handleChange}
-          />
-        </InputContainer>
-        <InputContainer>
-          <label htmlFor="email">Email</label>
-          <InputField
-            id="email"
-            name="email"
-            value={state.email}
-            onChange={handleChange}
-          />
-        </InputContainer>
+        <Controller
+          name="name"
+          control={control}
+          render={props => (
+            <InputContainer>
+              <label htmlFor="name">Nome</label>
+              <InputField
+                id="name"
+                onChange={e => props.field.onChange(e.target.value)}
+                value={props.field.value}
+              />
+            </InputContainer>
+          )}
+        />
+        <Controller
+          name="email"
+          control={control}
+          render={props => (
+            <InputContainer>
+              <label htmlFor="email">Email</label>
+              <InputField
+                id="email"
+                onChange={e => props.field.onChange(e.target.value)}
+                value={props.field.value}
+              />
+            </InputContainer>
+          )}
+        />
+
         {!userId && (
-          <InputContainer>
-            <label htmlFor="password">Senha</label>
-            <InputField
-              id="password"
-              name="password"
-              type="password"
-              value={state.password}
-              onChange={handleChange}
-            />
-          </InputContainer>
-        )}
-        <InputContainer>
-          <label htmlFor="administrator-checkbox">Administrador</label>
-          <InputCheckbox
-            id="administrator-checkbox"
-            name="isAdmin"
-            type="checkbox"
-            checked={state.isAdmin}
-            onChange={handleChange}
+          <Controller
+            name="password"
+            control={control}
+            render={props => (
+              <InputContainer>
+                <label htmlFor="password">Senha</label>
+                <InputField
+                  id="password"
+                  type="password"
+                  onChange={e => props.field.onChange(e.target.value)}
+                  value={props.field.value}
+                />
+              </InputContainer>
+            )}
           />
-        </InputContainer>
+        )}
+        <Controller
+          name="isAdmin"
+          control={control}
+          render={props => (
+            <InputContainer>
+              <label htmlFor="isAdmin">Administrador</label>
+              <InputCheckbox
+                id="isAdmin"
+                type="checkbox"
+                onChange={e => props.field.onChange(e.target.checked)}
+                checked={props.field.value}
+              />
+            </InputContainer>
+          )}
+        />
       </Container>
       <FormFooter
         isEdit={!!userId}
-        onConfirm={handleConfirm}
+        onConfirm={handleSubmit(handleConfirm)}
         onCancel={handleCancel}
       />
     </Wrapper>
