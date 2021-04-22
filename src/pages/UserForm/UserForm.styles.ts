@@ -29,3 +29,8 @@ export const InputCheckbox = styled('input', {
   width: '16px',
   height: '16px',
 });
+
+export const ErrorMessage = styled('span', {
+  color: 'red',
+  marginBottom: '10px',
+});

@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import { FormFooter } from '../../components/FormFooter/FormFooter';
 import IUser from '../../models/user';
 import { getUser, addUser, updateUser } from '../../services/userService';
-
-export interface IUserFormProps {
-  userId?: string;
-}
 
 import {
   Wrapper,
@@ -17,8 +14,13 @@ import {
   InputContainer,
   InputField,
   InputCheckbox,
+  ErrorMessage,
 } from './UserForm.styles';
+import { userSchema } from './Schema';
 
+export interface IUserFormProps {
+  userId?: string;
+}
 interface IFormInput {
   name: string;
   email: string;
@@ -27,9 +29,17 @@ interface IFormInput {
 }
 
 export function UserForm({ userId }: IUserFormProps) {
-  const { handleSubmit, setValue, control } = useForm<IFormInput>();
+  const {
+    handleSubmit,
+    setValue,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm<IFormInput>({
+    resolver: yupResolver(userSchema),
+  });
   const [location, setLocation] = useLocation();
-  const [currentUser, setCurrentUser] = useState<IUser>();
+  const [currentUser, setCurrentUser] = useState<IUser | null>();
 
   useEffect(() => {
     const loadUser = async () => {
@@ -38,23 +48,37 @@ export function UserForm({ userId }: IUserFormProps) {
 
         setCurrentUser(user);
         populateFieldsWithUserData(user);
+        return;
       }
+
+      setCurrentUser(null);
+      populateFieldsWithUserData(null);
     };
 
     loadUser();
-  }, []);
+  }, [userId]);
 
-  const populateFieldsWithUserData = (user: IUser) => {
-    Object.entries(user).forEach(([key, value]) => {
-      if (key !== 'password') {
-        setValue(key as any, value);
-      }
-    });
+  const populateFieldsWithUserData = (user: IUser | null) => {
+    if (user) {
+      Object.entries(user).forEach(([key, value]) => {
+        if (key !== 'password') {
+          setValue(key as any, value);
+        }
+      });
+      return;
+    }
+
+    reset({ email: '', name: '' });
   };
 
   const handleConfirm = async (data: IFormInput) => {
+    const user: IUser = {
+      ...currentUser,
+      ...data,
+    };
+
     const action = userId ? updateUser : addUser;
-    await action(data);
+    await action(user);
     setLocation('/user/list');
   };
   const handleCancel = () => {
@@ -64,10 +88,11 @@ export function UserForm({ userId }: IUserFormProps) {
   return (
     <Wrapper>
       <Container>
-        <Header>Cadastro de usuário</Header>
+        <Header>{userId ? 'Edição' : 'Cadastro'} de usuário</Header>
         <Controller
           name="name"
           control={control}
+          defaultValue={currentUser?.name || ''}
           render={props => (
             <InputContainer>
               <label htmlFor="name">Nome</label>
@@ -76,12 +101,14 @@ export function UserForm({ userId }: IUserFormProps) {
                 onChange={e => props.field.onChange(e.target.value)}
                 value={props.field.value}
               />
+              <ErrorMessage>{errors?.name?.message}</ErrorMessage>
             </InputContainer>
           )}
         />
         <Controller
           name="email"
           control={control}
+          defaultValue={currentUser?.email || ''}
           render={props => (
             <InputContainer>
               <label htmlFor="email">Email</label>
@@ -90,6 +117,7 @@ export function UserForm({ userId }: IUserFormProps) {
                 onChange={e => props.field.onChange(e.target.value)}
                 value={props.field.value}
               />
+              <ErrorMessage>{errors?.email?.message}</ErrorMessage>
             </InputContainer>
           )}
         />
@@ -107,6 +135,7 @@ export function UserForm({ userId }: IUserFormProps) {
                   onChange={e => props.field.onChange(e.target.value)}
                   value={props.field.value}
                 />
+                <ErrorMessage>{errors?.password?.message}</ErrorMessage>
               </InputContainer>
             )}
           />
@@ -114,6 +143,7 @@ export function UserForm({ userId }: IUserFormProps) {
         <Controller
           name="isAdmin"
           control={control}
+          defaultValue={currentUser?.isAdmin || false}
           render={props => (
             <InputContainer>
               <label htmlFor="isAdmin">Administrador</label>
